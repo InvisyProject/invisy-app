@@ -49,11 +49,18 @@ const Navbar = () => {
         href="https://request.network/"
         className="mr-auto tablet:mr-0"
       >
-        <img
-          src="assets/logo.svg"
-          alt="Request Network Logo"
-          className="w-[100px] xl:w-[120px]"
-        />
+
+        <div className="flex items-center justify-center align-middle text-black font-serif">
+          <img
+            src="assets/invicy-logo.png"
+            alt="Invicy Network Logo"
+            className="w-[30px] xl:w-[50px]"
+          />
+          <div className="flex-row text-4xl font-serif px-4">
+            Invicy
+          </div>
+
+        </div>
       </a>
       <BurgerMenu
         className="block tablet:hidden"
@@ -64,47 +71,14 @@ const Navbar = () => {
           <li className={`h-full relative text-black`} key={index}>
             <Link href={link.href}>{link.name}</Link>
             <div
-              className={`${
-                router.pathname === link.href &&
+              className={`${router.pathname === link.href &&
                 "h-[4px] bg-green w-full absolute bottom-[-28px]"
-              }`}
+                }`}
             ></div>
           </li>
         ))}
       </ul>
-      <div className="hidden tablet:flex items-center gap-[15px] lg:gap-[35px] ml-auto ">
-        <div
-          onMouseEnter={() => setIsDocsHovered(true)}
-          onMouseLeave={() => setIsDocsHovered(false)}
-        >
-          <a
-            target="_blank"
-            rel="noreferrer noopener"
-            href="https://docs.request.network/building-blocks/templates"
-            className="flex items-center gap-[5px] bg-transparent text-green font-medium text-[14px] lg:text-[16px]"
-          >
-            Integrate in your app
-            <ArrowUpRight />
-          </a>
-          <div
-            className={`${
-              isDocsHovered ? "h-[1.5px]" : "h-[0px]"
-            } w-100 bg-green`}
-          ></div>
-        </div>
-        <Dropdown title="Need help?" items={supportLinks} />
-        <Button
-          className="px-[14px] lg:px-[20px] text-14px lg:text-[16px] py-[8px]"
-          text={
-            wallet
-              ? truncateAddress(wallet.accounts[0].address)
-              : "Connect Wallet"
-          }
-          onClick={() => {
-            connect();
-          }}
-        />
-      </div>
+      
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetContent>
           <SheetTitle hidden>Menu</SheetTitle>
@@ -115,10 +89,9 @@ const Navbar = () => {
             {links.map((link, index) => (
               <li key={index}>
                 <Link
-                  className={`w-[80%] block h-[30px] ${
-                    router.pathname === link.href &&
+                  className={`w-[80%] block h-[30px] ${router.pathname === link.href &&
                     "border-b-[1px] border-solid border-green"
-                  }`}
+                    }`}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >

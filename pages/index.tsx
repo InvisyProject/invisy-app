@@ -27,7 +27,7 @@ export default function InvoiceDashboard() {
       <Head>
         <title>Request Payment</title>
       </Head>
-      <div className="container m-auto  w-[100%]">
+      <div className="container m-auto w-[100%] h-screen">
         <invoice-dashboard ref={dashboardRef} />
       </div>
     </>

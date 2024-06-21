@@ -20,8 +20,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className={`${montserrat.className}`}>
       <Web3OnboardProvider web3Onboard={wen3Onboard}>
         <Provider>
-          <Navbar />
-          <Component {...pageProps} />
+            <Navbar />
+            <Component {...pageProps} />
         </Provider>
       </Web3OnboardProvider>
     </div>
