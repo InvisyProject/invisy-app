@@ -28,25 +28,16 @@ const Navbar = () => {
       name: "Create an Invoice",
       href: "/create-invoice",
     },
-  ];
-
-  const supportLinks = [
     {
-      name: "Github Discussions",
-      href: "https://github.com/orgs/RequestNetwork/discussions",
-    },
-    {
-      name: "Discord",
-      href: "https://discord.com/channels/468974345222619136/1103420140181274645",
-    },
+      name:"Marketplace",
+      href:"/marketplace"
+    }
   ];
 
   return (
     <nav className="relative h-full flex items-center p-[20px] gap-[20px] xl:gap-[60px] bg-white shadow-small mb-[30px] tablet:mb-[80px]">
       <a
-        target="_blank"
-        rel="noreferrer noopener"
-        href="https://request.network/"
+        href="/"
         className="mr-auto tablet:mr-0"
       >
 
@@ -78,7 +69,22 @@ const Navbar = () => {
           </li>
         ))}
       </ul>
-      
+
+
+      <div className="hidden tablet:flex items-center gap-[15px] lg:gap-[35px] ml-auto ">
+        <Button
+          className="px-[14px] lg:px-[20px] text-14px lg:text-[16px] py-[8px]"
+          text={
+            wallet
+              ? truncateAddress(wallet.accounts[0].address)
+              : "Connect Wallet"
+          }
+          onClick={() => {
+            connect();
+          }}
+        />
+      </div>
+
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetContent>
           <SheetTitle hidden>Menu</SheetTitle>
@@ -90,7 +96,7 @@ const Navbar = () => {
               <li key={index}>
                 <Link
                   className={`w-[80%] block h-[30px] ${router.pathname === link.href &&
-                    "border-b-[1px] border-solid border-green"
+                    "border-b-[1px] border-solid border-blue-500 "
                     }`}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
@@ -99,20 +105,6 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-            <li>
-              <a
-                target="_blank"
-                rel="noreferrer noopener"
-                href="https://docs.request.network/building-blocks/templates"
-                className="flex items-center gap-[5px] bg-transparent text-green font-medium text-[16px] w-[100%] h-[30px]"
-              >
-                Integrate in your app
-                <ArrowUpRight />
-              </a>
-            </li>
-            <li>
-              <Dropdown title="Need help?" items={supportLinks} />
-            </li>
             <li>
               <Button
                 className="w-[122px] justify-center text-[16px]  py-[8px]"

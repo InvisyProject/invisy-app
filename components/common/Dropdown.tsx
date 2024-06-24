@@ -38,7 +38,7 @@ const Dropdown = ({ outlined = true, title, items }: DropdownProps) => {
         className={`${
           !outlined
             ? "bg-green hover:bg-dark-green"
-            : "bg-transparent text-dark-green border-dark-green border-[1px] hover:border-green hover:text-green"
+            : "bg-transparent text-dark-green border-dark-green border-[1px] hover:border-blue-500 hover:text-green"
         }   focus:ring-transparent focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[14px] lg:text-sm px-[12px] lg:px-[28px] py-[8px] text-center inline-flex items-center`}
         type="button"
       >
