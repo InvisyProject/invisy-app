@@ -9,6 +9,8 @@ import { WalletState } from "@web3-onboard/core";
 import { useConnectWallet } from "@web3-onboard/react";
 import { initializeRequestNetwork } from "./initializeRN";
 import type { RequestNetwork } from "@requestnetwork/request-client.js";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 
 interface ContextType {
   wallet: WalletState | null;
@@ -16,6 +18,8 @@ interface ContextType {
 }
 
 const Context = createContext<ContextType | undefined>(undefined);
+const queryClient = new QueryClient();
+
 
 export const Provider = ({ children }: { children: ReactNode }) => {
   const [{ wallet }] = useConnectWallet();
@@ -37,7 +41,7 @@ export const Provider = ({ children }: { children: ReactNode }) => {
         requestNetwork,
       }}
     >
-      {children}
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </Context.Provider>
   );
 };

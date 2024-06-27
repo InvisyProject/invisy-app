@@ -6,6 +6,9 @@ import coinbaseModule from "@web3-onboard/coinbase";
 import walletConnectModule from "@web3-onboard/walletconnect";
 import injectedModule from "@web3-onboard/injected-wallets";
 
+import { http, createConfig } from 'wagmi'
+import { mainnet, sepolia } from 'wagmi/chains'
+
 const injected = injectedModule();
 
 export const onboardConfig = {
@@ -53,3 +56,11 @@ export const onboardConfig = {
     description: "Request Network Invoicing Template",
   },
 };
+
+export const config = createConfig({
+  chains: [mainnet, sepolia],
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+  },
+})
