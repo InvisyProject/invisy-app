@@ -21,13 +21,13 @@ export default function CreateInvoice() {
   }, [wallet, requestNetwork]);
 
   return (
-    <>
+    <div className="py-14">
       <Head>
         <title>Request Payment - Create an Invoice</title>
       </Head>
       <div className="container m-auto  w-[100%]">
         <create-invoice-form ref={formRef} />
       </div>
-    </>
+    </div>
   );
 }
