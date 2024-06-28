@@ -1,3 +1,5 @@
+"use client";
+
 import React, {useState} from 'react';
 import { useRequest } from '@/lib/hooks/useRequest';
 import { useQuery } from '@tanstack/react-query';

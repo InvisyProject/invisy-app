@@ -8,9 +8,11 @@ import type {
     RequestSnapsResponse,
 } from '@/lib/types/snap';
 
+
 export const useSnaps = () => {
     const getSnaps = async () => {
-        const snaps = (await window.ethereum.request({
+        //@ts-ignore
+        const snaps = (await window.ethereum?.request({
             method: 'wallet_getSnaps',
             params: [],
         })) as GetSnapsResponse;
@@ -19,7 +21,8 @@ export const useSnaps = () => {
     };
 
     const requestSnaps = async (params: RequestSnapsParams) => {
-        const snaps = (await window.ethereum.request({
+        //@ts-ignore
+        const snaps = (await window.ethereum?.request({
             method: 'wallet_requestSnaps',
             params,
         })) as RequestSnapsResponse;
@@ -27,8 +30,10 @@ export const useSnaps = () => {
         return snaps;
     };
 
+
     const invokeSnap = async (params: InvokeSnapParams) => {
-        const result = (await window.ethereum.request({
+        //@ts-ignore
+        const result = (await window.ethereum?.request({
             method: 'wallet_invokeSnap',
             params,
         })) as object;

@@ -36,7 +36,7 @@ const Navbar = () => {
 
   return (
     <nav className="relative h-full flex items-center p-[20px] gap-[20px] xl:gap-[60px] bg-white shadow-small mb-[30px] tablet:mb-[80px]">
-      <a
+      <Link
         href="/"
         className="mr-auto tablet:mr-0"
       >
@@ -52,7 +52,7 @@ const Navbar = () => {
           </div>
 
         </div>
-      </a>
+      </Link>
       <BurgerMenu
         className="block tablet:hidden"
         onClick={() => setIsMobileMenuOpen(true)}
