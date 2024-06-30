@@ -71,12 +71,13 @@ const marketplace = () => {
                 <div className="flex flex-col justify-center items-center content-center ">
                     {/* map nft data here using Event Card component to show multiple events*/}
                     <div className='px-14 py-5'>
-                        <div className='text-xl font-bold'>Listed Invoices</div>
+                        <div className='text-2xl font-bold'>Listed Invoices</div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 py-5">
                             {invoiceData.map((invoice, index) => (
                                 <InvoiceCard
-                                    key={invoice.key}
+                                    key={invoice.invoiceKey}
+                                    invoiceKey={invoice.invoiceKey}
                                     amount={invoice.amount}
                                     chain={invoice.chain}
                                     dueDate={invoice.dueDate}
