@@ -8,7 +8,8 @@ import Link from "next/link";
 import { BsArrowRight } from "react-icons/bs";
 import { BiHeart } from "react-icons/bi";
 import Image from "next/image";
-
+import InvoiceCard from '@/components/InvoiceCard';
+import invoiceData from '@/lib/data.json';
 
 const marketplace = () => {
     const { getAllRequestsData, data } = useRequest();
@@ -69,37 +70,26 @@ const marketplace = () => {
             <div>
                 <div className="flex flex-col justify-center items-center content-center ">
                     {/* map nft data here using Event Card component to show multiple events*/}
-                    <div className="flex flex-row p-10">
-                        {/* creating duplicate events */}
-                        <div className="card card-compact mx-5 w-[400px] bg-[#202020] p-4 text-white shadow-xl">
-                            <figure>
-                                <Image
-                                    src="/images/sui.png"
-                                    alt="Gaming Trends on Sui"
-                                    width={500} height={200}
+                    <div className='px-14 py-5'>
+                        <div className='text-xl font-bold'>Listed Invoices</div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {invoiceData.map((invoice, index) => (
+                                <InvoiceCard
+                                    key={invoice.key}
+                                    amount={invoice.amount}
+                                    chain={invoice.chain}
+                                    dueDate={invoice.dueDate}
+                                    buyer={invoice.buyer}
+                                    seller={invoice.seller}
+                                    payer={invoice.payer}
+                                    payee={invoice.payee}
+                                    nftOwner={invoice.nftOwner}
+                                    totalNumStakers={invoice.totalNumStakers}
                                 />
-                            </figure>
-                            <div className="card-body">
-                                <div className="flex">
-                                    <div className="font-Agda text-[18px] uppercase text-[#98ee2c]"> Nov 02</div>
-                                    <div className="font-Agda text-[18px] uppercase px-2"> Starting At 6:00PM</div>
-                                    <div className="text-end justify-end">
-                                        <BiHeart />
-                                    </div>
-                                </div>
-                                <h2 className="card-title font-Montserrat text-[24px] pb-4">Gaming Trends on Sui</h2>
-                                <div className="flex ">
-                                    <button
-                                        className="flex justify-start relative text-lg px-8 py-3 bg-[#98ee2c]  mr-5 uppercase font-Agda font-bold text-black hover:bg-[#f0f0f0] cursor-pointer" >
-                                        Watch Live
-                                        <BsArrowRight className='mt-1 ml-2' />
-                                    </button>
-                                </div>
-                            </div>
+                            ))}
                         </div>
-
                     </div>
-
                 </div>
             </div>
         </div>
