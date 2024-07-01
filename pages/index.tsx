@@ -1,35 +1,37 @@
-import("@requestnetwork/invoice-dashboard");
 import Head from "next/head";
-import { useEffect, useRef } from "react";
-import { config } from "@/utils/config";
-import { useAppContext } from "@/utils/context";
-import { InvoiceDashboardProps } from "@/types";
-import { useConnectWallet } from "@web3-onboard/react";
+import React from "react";
+import Link from "next/link";
+import { BsArrowRight } from "react-icons/bs";
 
-export default function InvoiceDashboard() {
-  const [{ wallet }] = useConnectWallet();
-  const { requestNetwork } = useAppContext();
-  const dashboardRef = useRef<InvoiceDashboardProps>(null);
 
-  useEffect(() => {
-    if (dashboardRef.current) {
-      dashboardRef.current.config = config;
-
-      if (wallet && requestNetwork) {
-        dashboardRef.current.wallet = wallet;
-        dashboardRef.current.requestNetwork = requestNetwork;
-      }
-    }
-  }, [wallet, requestNetwork]);
-
+export default function HomePage() {
   return (
-    <div className="pt-10" style={{ background: "linear-gradient(to right, rgb(254, 240, 138), rgb(187, 247, 208), rgb(134, 239, 172))" }}>
-      {/* <div className="bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100 pt-10"> */}
-      <Head>
-        <title>Request Payment</title>
-      </Head>
-      <div className="container m-auto w-[100%] h-screen">
-        <invoice-dashboard ref={dashboardRef} />
+    <div
+      className="hero min-h-screen bg-gradient-to-r from-teal-200 to-lime-200 bg-opacity-50"
+    >
+      <div className="hero-content text-black text-center">
+        <div className="w-max">
+          <div className="mb-5 text-5xl font-serif font-bold">Hey 👋, Welcome To Invicy
+          </div>
+          <div className="mb-5 text-xl">
+            One stop platform to create, cancel approve, pay, manage, lend and borrow invoices.
+          </div>
+          <div className='flex gap-4 text-center align-middle justify-center'>
+            <Link
+              href="/create-invoice"
+              className="rounded-xl inline-flex align-left items-center relative text-lg px-8 py-3 bg-white  mr-5 uppercase font-Agda font-bold text-b hover:bg-[#f0f0f0] cursor-pointer" >
+              Create Invoice
+              <BsArrowRight className=' ml-2' />
+            </Link>
+            <Link
+              href="/marketplace"
+              className="rounded-xl inline-flex align-left items-center relative text-lg px-8 py-3 bg-white  mr-5 uppercase font-Agda font-bold text-b hover:bg-[#f0f0f0] cursor-pointer" >
+              Marketplace
+              <BsArrowRight className=' ml-2' />
+            </Link>
+          </div>
+          
+        </div>
       </div>
     </div>
   );

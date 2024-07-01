@@ -21,16 +21,16 @@ const Navbar = () => {
 
   const links = [
     {
-      name: "Dashboard",
-      href: "/",
-    },
-    {
       name: "Create Invoice",
       href: "/create-invoice",
     },
     {
-      name:"Marketplace",
-      href:"/marketplace"
+      name: "Dashboard",
+      href: "/dashboard",
+    },
+    {
+      name: "Marketplace",
+      href: "/marketplace"
     }
   ];
 
@@ -63,7 +63,7 @@ const Navbar = () => {
             <Link href={link.href}>{link.name}</Link>
             <div
               className={`${router.pathname === link.href &&
-                "h-[4px] bg-green w-full absolute bottom-[-28px]"
+                "h-[4px] bg-black w-full absolute bottom-[-28px]"
                 }`}
             ></div>
           </li>
@@ -73,7 +73,7 @@ const Navbar = () => {
 
       <div className="hidden tablet:flex items-center gap-[15px] lg:gap-[35px] ml-auto ">
         <Button
-          className="px-[14px] lg:px-[20px] text-14px lg:text-[16px] py-[8px]"
+          className="px-[14px] lg:px-[20px] text-14px lg:text-[16px] py-[8px] bg-[#98EE2B] "
           text={
             wallet
               ? truncateAddress(wallet.accounts[0].address)

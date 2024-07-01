@@ -22,7 +22,7 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, du
     return (
         <div className="p-5 justify-between items-center bg-gray-100 rounded-3xl ">
             <div className='flex flex-row w-full items-center gap-4'>
-                <FaFileInvoiceDollar className='bg-[#98EE2B] rounded-xl text-4xl' />
+                <FaFileInvoiceDollar className='bg-[#98EE2B] rounded-3xl p-1 text-5xl' />
                 <div>
                     <h2 className="text-left text-xl font-semibold font-sm">Invoice {invoiceKey}</h2>
                     <div className='text-[12px]'> Amount : {amount}</div>
@@ -38,14 +38,14 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, du
                 <div className="my-1 border-t border-gray-300"></div>
                 <div className="">
                     <div className='flex items-center justify-between'>
-                        <div className=''>Buyer:</div>
+                        <div className='font-semibold font-sm'>Buyer:</div>
                         <div className=''>{buyer}</div>
                     </div>
                 </div>
                 <div className="my-1 border-t border-gray-300"></div>
                 <div className="">
                     <div className='flex items-center justify-between'>
-                        <div className=''>Seller:</div>
+                        <div className='font-semibold font-sm'>Seller:</div>
                         <div className=''>{seller}</div>
                     </div>
                 </div>
