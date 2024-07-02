@@ -30,3 +30,7 @@ interface CreateInvoiceFormProps extends HTMLElement {
   signer: string;
   requestNetwork: RequestNetwork;
 }
+
+interface Window {
+  ethereum: any;
+}

@@ -14,7 +14,7 @@ export default function HomePage() {
           <div className="mb-5 text-5xl font-serif font-bold">Hey 👋, Welcome To Invicy
           </div>
           <div className="mb-5 text-xl">
-            One stop platform to create, cancel approve, pay, manage, lend and borrow invoices.
+            One stop platform to create, cancel, approve, pay, manage, lend and borrow invoices.
           </div>
           <div className='flex gap-4 text-center align-middle justify-center'>
             <Link
