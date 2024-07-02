@@ -1,14 +1,56 @@
-# Request Payment (Invoicing Template)
+# Introducing Invisy
 
-A simple invoicing template for creating, paying, and viewing requests in Request Network.
+One stop platform to create, cancel approve, pay, manage, lend and borrow invoices.
 
-Built with:
+## **🧐 Problem Statement**
+**1. Inefficiency in Invoice Management**
+Managing invoices is a time-consuming and error-prone process for businesses, often requiring multiple steps and involving various intermediaries. This inefficiency can lead to delayed payments, lost invoices, and increased administrative costs.
 
-- [Next.js](https://nextjs.org/)
-- [React](https://reactjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Request Network](https://request.network/)
-- [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components)
+**2. Cash Flow Challenges**
+Businesses, especially small and medium enterprises (SMEs), frequently face cash flow issues due to delayed payments. Traditional invoice factoring and financing solutions are often costly and involve lengthy approval processes.
+
+**3. Lack of Transparency and Security**
+Traditional invoicing systems lack transparency, making it difficult for businesses to track the status of invoices and payments. Additionally, these systems are vulnerable to fraud and data breaches.
+
+**4. Limited Access to Financing**
+Small businesses often struggle to access financing due to stringent requirements and lack of collateral. Traditional financial intermediaries impose high fees and interest rates, making financing expensive and less accessible.
+
+## **💡 Idea / Solution**
+
+### **Invisy: A Decentralized Invoice Management Platform**
+
+Invisy leverages the power of blockchain technology and the Request Network to provide a comprehensive solution for invoice management. By tokenizing invoices as NFTs, Invisy facilitates a transparent, secure, and efficient ecosystem for creating, canceling, approving, paying, managing, lending, and borrowing invoices.
+
+### **How Invisy Works**
+- Tokenization of Invoices: Invoices are converted into Non-Fungible Tokens (NFTs) on the blockchain, ensuring immutability and traceability.
+
+- Decentralized Marketplace: Businesses can list their invoice NFTs on a decentralized marketplace, where investors can purchase them, providing immediate liquidity.
+
+- Smart Contracts: Automated smart contracts using Request Network handle the creation, transfer, and settlement of invoices, reducing the need for intermediaries and minimizing human error.
+
+
+## **Features**
+
+- **Create and Tokenize Invoices:** Easily create invoices and tokenize them as NFTs on the blockchain.
+- **Cancel and Approve Invoices:** Secure mechanisms for canceling and approving invoices, ensuring accurate record-keeping.
+- **Payment Tracking:** Real-time tracking of invoice payments for transparency and accountability.
+- **Marketplace Listing:** List invoice NFTs on the Invisy marketplace for a global network of investors.
+- **Invoice Factoring:** Sell invoices to investors at a discount to receive immediate cash flow.
+- **Immutable Records:** Blockchain ensures that all invoice data is secure, immutable, and transparent.
+- **Smart Contract Automation:** Automated processes for invoice creation, transfer, and payment settlement.
+- **Immediate Liquidity:** Quickly access funds by selling invoices, enhancing cash flow management.
+- **User-Friendly Dashboard:** Manage invoices, track payments, and monitor investments with ease.
+- **Web3 Integration:** Seamless integration with blockchain wallets (e.g., MetaMask) for easy access.
+
+## **🚀 Tech Stack**
+
+- **Blockchain:** Ethereum
+- **Smart Contracts:** Solidity
+- **NFT Standard:** ERC-721
+- **Decentralized Finance (DeFi):** Request Network
+- **Frontend:** Nextjs, Web3.js
+- **Contract Testing:** Hardhat, Ethers.js
+- **Version Control:** Git, GitHub  
 
 ## Install
 
