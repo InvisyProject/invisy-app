@@ -21,11 +21,11 @@ const Navbar = () => {
 
   const links = [
     {
-      name: "My dashboard",
+      name: "Dashboard",
       href: "/",
     },
     {
-      name: "Create an Invoice",
+      name: "Create Invoice",
       href: "/create-invoice",
     },
     {
@@ -35,7 +35,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="relative h-full flex items-center p-[20px] gap-[20px] xl:gap-[60px] bg-white shadow-small mb-[30px] tablet:mb-[80px]">
+    <nav className="relative h-full flex items-center p-[20px] gap-[20px] xl:gap-[60px] bg-white shadow-small">
       <Link
         href="/"
         className="mr-auto tablet:mr-0"
@@ -43,7 +43,7 @@ const Navbar = () => {
 
         <div className="flex items-center justify-center align-middle text-black font-serif">
           <img
-            src="assets/invicy-logo.png"
+            src="assets/invicy.png"
             alt="Invicy Network Logo"
             className="w-[30px] xl:w-[50px]"
           />

@@ -23,13 +23,14 @@ export default function InvoiceDashboard() {
   }, [wallet, requestNetwork]);
 
   return (
-    <>
+    <div className="pt-10" style={{ background: "linear-gradient(to right, rgb(254, 240, 138), rgb(187, 247, 208), rgb(134, 239, 172))" }}>
+      {/* <div className="bg-gradient-to-r from-indigo-200 via-red-200 to-yellow-100 pt-10"> */}
       <Head>
         <title>Request Payment</title>
       </Head>
       <div className="container m-auto w-[100%] h-screen">
         <invoice-dashboard ref={dashboardRef} />
       </div>
-    </>
+    </div>
   );
 }
