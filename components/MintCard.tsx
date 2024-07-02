@@ -1,78 +1,106 @@
+"use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { ethers } from "ethers";
-import InvoiceNFT from "@/lib/contract/InvoiceNFT.json";
-import { InvoiceNFTContract } from "@/lib/constant";
+import { useAccount } from 'wagmi';
+import Marketplace from "@/lib/contract/Marketplace.json";
+import { CONTRACT_ADDRESS } from "@/lib/constant";
+
+declare global {
+    interface Window {
+        ethereum: any;
+    }
+}
 
 const MintInvoiceCard = ({ invoice }: any) => {
-    const [account, setAccount] = useState<string | null>(null);
     const [provider, setProvider] = useState<ethers.providers.Web3Provider | null>(null);
     const [contract, setContract] = useState<ethers.Contract | null>(null);
+    const { address, isConnected } = useAccount();
+    console.log("invoice", invoice);
 
-    if (!invoice) return null
-    let amount: string = invoice.expectedAmount
-    const currency = invoice.currency
-    const requestId = invoice.requestId
+    if (!invoice) return null;
 
-    if (currency == "fUSDC-sepolia") {
-        amount = (parseFloat(invoice.expectedAmount) / 1000000).toString()
+    let amount: string = invoice.expectedAmount;
+    const oldAmount = invoice.expectedAmount;
+    const currency = invoice.currency;
+    const requestId = invoice.requestId;
+    const date = (new Date(invoice.contentData?.paymentTerms?.dueDate)).getTime();
+    console.log('date', date, "oldAmount", oldAmount, "currency", currency, "requestId", requestId);
+
+    if (currency === "fUSDC-sepolia") {
+        amount = (parseFloat(invoice.expectedAmount) / 1000000).toString();
     }
-    if (currency == "FAU-sepolia") {
-        amount = (parseFloat(invoice.expectedAmount) / Math.pow(10, 18)).toString()
+    if (currency === "FAU-sepolia") {
+        amount = (parseFloat(invoice.expectedAmount) / Math.pow(10, 18)).toString();
     }
-    console.log("invoice", invoice)
 
-
-    const connectWallet = async () => {
-        if (window.ethereum) {
-            const web3Provider = new ethers.providers.Web3Provider(window.ethereum);
-            try {
-                await web3Provider.send('eth_requestAccounts', []);
-                const signer = web3Provider.getSigner();
-                const accounts = await signer.getAddress();
-                setAccount(accounts);
-                setProvider(web3Provider);
-
-                const invoiceNFTContract = new ethers.Contract(InvoiceNFTContract, InvoiceNFT, signer);
-                setContract(invoiceNFTContract);
-            } catch (error) {
-                console.error('User denied account access', error);
+    useEffect(() => {
+        const setupContract = async () => {
+            if (typeof window !== 'undefined' && window.ethereum && isConnected && address) {
+                try {
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    const signer = provider.getSigner();
+                    const network = await provider.getNetwork();
+                    if (network.chainId !== 11155111) { // Sepolia chainId
+                        throw new Error("Please connect to the Sepolia network");
+                    }
+                    const invoiceNFTContract = new ethers.Contract(CONTRACT_ADDRESS, Marketplace.abi, signer);
+                    setContract(invoiceNFTContract);
+                    setProvider(provider);
+                } catch (error) {
+                    console.error("Error setting up contract:", error);
+                }
             }
-        } else {
-            console.error('No Ethereum browser extension detected');
-        }
-    };
+        };
+        setupContract();
+    }, [isConnected, address]);
 
     const mintInvoice = async () => {
-        if (contract && account) {
-            const billAmount = amount;
-            const token = invoice?.currency;
-            const dueDate = invoice.contentData.paymentTerms.dueDate;
-            const uniqueId = requestId;
-            const buyer = invoice?.contentData?.buyerInfo?.firstName + invoice?.contentData?.buyerInfo?.lastName (invoice?.contentData?.buyerInfo?.businessName);
-            const seller =invoice?.contentData?.sellerInfo?.firstName + invoice?.contentData?.sellerInfo?.lastName;
+        if (!contract || !address) {
+            console.error('Contract or address not initialized');
+            return;
+        }
 
-            const payer = invoice.payer.value;
-            const payee = invoice.payee.value;
+        const billAmount = oldAmount;
+        const token = invoice?.currency;
+        const dueDate = invoice.contentData.paymentTerms.dueDate;
+        const uniqueId = requestId;
+        const invoiceBuyer = `${invoice?.contentData?.buyerInfo?.firstName || ''}${invoice?.contentData?.buyerInfo?.lastName || ''}${invoice?.contentData?.buyerInfo?.businessName || ''}`;
+        const invoiceSeller = `${invoice?.contentData?.sellerInfo?.firstName || ''}${invoice?.contentData?.sellerInfo?.lastName || ''}`;
+        const payer = invoice.payer.value;
+        const payee = invoice.payee.value;
+        const status = invoice.state;
+        const minBid = oldAmount;
+        console.log('addressn billAmount , token , dueDate , uniqueId , invoiceBuyer , invoiceSeller , payer , payee , status',address, billAmount, token, date, uniqueId, invoiceBuyer, invoiceSeller, payer, payee, status, minBid);
 
-            try {
-                const tx = await contract.mintInvoice(
-                    account,
-                    billAmount,
-                    token,
-                    dueDate,
-                    uniqueId,
-                    buyer,
-                    seller,
-                    payer,
-                    payee
-                );
-                await tx.wait();
-                console.log('Invoice NFT minted successfully');
-            } catch (error) {
-                console.error('Error minting invoice NFT:', error);
-            }
+        try {
+            // Convert addresses to checksummed addresses
+            const payerAddress = ethers.utils.getAddress(payer);
+            const payeeAddress = ethers.utils.getAddress(payee);
+            console.log('payerAddress', payerAddress, 'payeeAddress', payeeAddress);
+            console.log('payer', payer, 'payee', payee);
+            const tx = await contract.mintAndListInvoice(
+                address,
+                billAmount,
+                token,
+                date,
+                uniqueId,
+                invoiceBuyer,
+                invoiceSeller,
+                payerAddress,
+                payeeAddress,
+                status,
+                minBid,
+                {
+                    gasLimit: ethers.utils.hexlify(1000000), // Setting a manual gas limit
+                }
+            );
+            await tx.wait();
+            console.log('Invoice NFT minted successfully', tx);
+        } catch (error) {
+            console.error("Error minting invoice NFT:", error);
         }
     };
 
@@ -130,7 +158,7 @@ const MintInvoiceCard = ({ invoice }: any) => {
                 <div className="my-1 border-t border-gray-300"></div>
             </div>
             <div className='flex gap-4 text-center '>
-                <button onSubmit={mintInvoice}
+                <button onClick={mintInvoice}
                     className="mt-2 inline-flex align-left rounded-3xl text-sm items-center bg-[#98EE2B] relative px-3 py-2 mr-5 font-semibold hover:bg-[#f0f0f0] cursor-pointer" >
                     Mint Your Invoice
                 </button>

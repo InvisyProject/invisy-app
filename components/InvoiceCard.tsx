@@ -1,9 +1,11 @@
 import React from 'react';
 import { FaFileInvoiceDollar } from "react-icons/fa6";
 import Link from 'next/link';
+import { ethers } from 'ethers';
+
 
 interface InvoiceCardProps {
-    invoiceKey: number;
+    invoiceKey: ethers.BigNumber;
     amount: string;
     chain: string;
     dueDate: string;
@@ -19,12 +21,13 @@ interface InvoiceCardProps {
 {/* <Link href="/operator/0x321980af329232423423"> */ }
 
 const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, dueDate, buyer, seller, payer, payee, nftOwner, totalNumStakers }) => {
+    const invoiceKeyInt = parseInt(invoiceKey.toString());
     return (
         <div className="p-5 justify-between items-center bg-gray-100 rounded-3xl ">
             <div className='flex flex-row w-full items-center gap-4'>
                 <FaFileInvoiceDollar className='bg-[#98EE2B] rounded-3xl p-1 text-5xl' />
                 <div>
-                    <h2 className="text-left text-xl font-semibold font-sm">Invoice {invoiceKey}</h2>
+                    <h2 className="text-left text-xl font-semibold font-sm">Invoice {invoiceKeyInt}</h2>
                     <div className='text-[12px]'> Amount : {amount}</div>
                     <div className='text-[12px]'> Chain : {chain}</div>
                     <div className='text-[12px]'> Due Date : {dueDate}</div>

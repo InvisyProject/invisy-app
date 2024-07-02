@@ -1,3 +1,3 @@
 // sepolia testnet
-export const InvoiceNFTContract = "0xDE42CA0839CB7eBf2eDF6bdE18d73C39ad6F97Cc"
-export const InvisyMarketplaceContract=""
+export const INVOICE_NFT = "0xAe428500F7F58461f04EE6F512e19b826893C42F"
+export const CONTRACT_ADDRESS="0x1b777b2CEBf0DBa2FBBa7c2E55911F5b5032242F"
