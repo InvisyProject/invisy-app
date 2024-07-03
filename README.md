@@ -5,7 +5,9 @@ One stop platform to create, cancel approve, pay, manage, lend and borrow invoic
 ## **🌐 Links**
 **Demo App:** [https://invisy.vercel.app/](https://invisy.vercel.app/)
 
-**Invoice Marketplace Contract (Sepolia)** : 0x1b777b2CEBf0DBa2FBBa7c2E55911F5b5032242F
+**Invoice Marketplace Contract (Sepolia)** : 
+Old contract - 0x1b777b2CEBf0DBa2FBBa7c2E55911F5b5032242F
+New contract - 0x38a547cFD6Dc5a2335d54B245406ffB221681558
 
 ## **🧐 Problem Statement**
 **1. Inefficiency in Invoice Management**
