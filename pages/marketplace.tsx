@@ -9,27 +9,36 @@ import { BsArrowRight } from "react-icons/bs";
 import InvoiceCard from '@/components/InvoiceCard';
 import invoiceData from '@/lib/data.json';
 import { ethers } from 'ethers';
-import MarketplaceContractJson from "@/lib/contract/Marketplace.json";
-import { CONTRACT_ADDRESS } from "@/lib/constant";
+import MarketplaceJson from "@/lib/contract/Marketplace.json";
+import { marketplaceAddress } from "@/lib/constant";
 
 // Define the structure of a listing
 interface Listing {
-    tokenId: ethers.BigNumber;
-    billAmount: ethers.BigNumber;
-    dueDate: ethers.BigNumber;
-    buyer: string;
+    tokenId: number;
     seller: string;
-    payer: string;
-    payee: string;
     minBid: ethers.BigNumber;
     active: boolean;
-    // Add other fields as necessary
+    billAmount: ethers.BigNumber;
+    token: string;
+    dueDate: ethers.BigNumber;
+    uniqueId: string;
+    invoiceBuyer: string;
+    invoiceSeller: string;
+    payer: string;
+    payee: string;
+    status: string;
+}
+
+interface InvoiceFactoringMarketplace extends ethers.Contract {
+    getTotalListings(): Promise<ethers.BigNumber>;
+    getListing(tokenId: number): Promise<Listing>;
 }
 
 const marketplace = () => {
     const { getAllRequestsData, data } = useRequest();
     const [listings, setListings] = useState<Listing[]>([]);
-    console.log("data", data)
+    const [totalListings, setTotalListings] = useState<number>(0);
+
 
     const [date, setDate] = useState<DateRange | undefined>({
         from: new Date(1719775001000),
@@ -55,30 +64,42 @@ const marketplace = () => {
     useEffect(() => {
         const fetchListings = async () => {
             if (typeof window.ethereum !== 'undefined') {
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const contract = new ethers.Contract(CONTRACT_ADDRESS, MarketplaceContractJson.abi, provider);
-
                 try {
-                    const listingCount: ethers.BigNumber = await contract.getListingCount(); // Assuming you have such a function
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    const signer = provider.getSigner();
+                    const contract = new ethers.Contract(marketplaceAddress, MarketplaceJson.abi, signer) as InvoiceFactoringMarketplace;
+
+                    const total = await contract.getTotalListings();
+                    setTotalListings(total.toNumber());
+                    console.log("total", total.toNumber());
+
                     const fetchedListings: Listing[] = [];
 
-                    for (let i = 0; i < listingCount.toNumber(); i++) {
-                        const listing: Listing = await contract.getListing(i);
-                        fetchedListings.push(listing);
-                    }
+                    for (let i = 0; i < total.toNumber(); i++) {
+                        const listing = await contract.listings(i);
+                        console.log("listing..", listing);
 
+                        if (listing.active) {
+                            fetchedListings.push({
+                                ...listing,
+                                tokenId: i
+                            });
+                        }
+                    }
+                    console.log("fetchedListings", fetchedListings);
                     setListings(fetchedListings);
-                    console.log("Fetched listings:", fetchedListings)
                 } catch (error) {
                     console.error("Error fetching listings:", error);
                 }
             }
-            console.log("Etherem undefined")
+            else {
+                console.error("Ethereum undefined");
+            }
         };
 
         fetchListings();
     }, []);
-
 
     console.log("requests", requests, "dates", date)
 
@@ -117,36 +138,18 @@ const marketplace = () => {
                     <div className='px-14 py-5'>
                         <div className='text-2xl font-bold'>Listed Invoices</div>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {listings.map((listing, index) => (
+                            {listings.map((listing) => (
                                 <InvoiceCard
-                                    key={index}
+                                    key={listing.tokenId}
                                     invoiceKey={listing.tokenId}
                                     amount={ethers.utils.formatEther(listing.billAmount)}
-                                    chain="Ethereum" // You might want to make this dynamic
+                                    chain={listing.token}
                                     dueDate={new Date(listing.dueDate.toNumber() * 1000).toLocaleDateString()}
-                                    buyer={listing.buyer}
-                                    seller={listing.seller}
+                                    buyer={listing.invoiceBuyer}
+                                    seller={listing.invoiceSeller}
                                     payer={listing.payer}
                                     payee={listing.payee}
-                                    nftOwner={listing.seller} // Assuming the seller is the NFT owner
-                                    totalNumStakers="N/A" // This isn't in your listing struct, so you might need to remove it or get it from elsewhere
-                                />
-                            ))}
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 py-5">
-                            {invoiceData.map((invoice, index) => (
-                                <InvoiceCard
-                                    key={invoice.invoiceKey}
-                                    invoiceKey={invoice.invoiceKey}
-                                    amount={invoice.amount}
-                                    chain={invoice.chain}
-                                    dueDate={invoice.dueDate}
-                                    buyer={invoice.buyer}
-                                    seller={invoice.seller}
-                                    payer={invoice.payer}
-                                    payee={invoice.payee}
-                                    nftOwner={invoice.nftOwner}
-                                    totalNumStakers={invoice.totalNumStakers}
+                                    nftOwner={listing.seller}
                                 />
                             ))}
                         </div>

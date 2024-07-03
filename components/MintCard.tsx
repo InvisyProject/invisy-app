@@ -5,7 +5,7 @@ import { FaFileInvoiceDollar } from "react-icons/fa6";
 import { ethers } from "ethers";
 import { useAccount } from 'wagmi';
 import Marketplace from "@/lib/contract/Marketplace.json";
-import { CONTRACT_ADDRESS } from "@/lib/constant";
+import { marketplaceAddress } from "@/lib/constant";
 
 declare global {
     interface Window {
@@ -26,7 +26,6 @@ const MintInvoiceCard = ({ invoice }: any) => {
     const currency = invoice.currency;
     const requestId = invoice.requestId;
     const date = (new Date(invoice.contentData?.paymentTerms?.dueDate)).getTime();
-    console.log('date', date, "oldAmount", oldAmount, "currency", currency, "requestId", requestId);
 
     if (currency === "fUSDC-sepolia") {
         amount = (parseFloat(invoice.expectedAmount) / 1000000).toString();
@@ -46,7 +45,7 @@ const MintInvoiceCard = ({ invoice }: any) => {
                     if (network.chainId !== 11155111) { // Sepolia chainId
                         throw new Error("Please connect to the Sepolia network");
                     }
-                    const invoiceNFTContract = new ethers.Contract(CONTRACT_ADDRESS, Marketplace.abi, signer);
+                    const invoiceNFTContract = new ethers.Contract(marketplaceAddress, Marketplace.abi, signer);
                     setContract(invoiceNFTContract);
                     setProvider(provider);
                 } catch (error) {
