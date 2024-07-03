@@ -142,7 +142,7 @@ const marketplace = () => {
                                 <InvoiceCard
                                     key={listing.tokenId}
                                     invoiceKey={listing.tokenId}
-                                    amount={ethers.utils.formatEther(listing.billAmount)}
+                                    amount={listing.billAmount.toString()}
                                     chain={listing.token}
                                     dueDate={new Date(listing.dueDate.toNumber() * 1000).toLocaleDateString()}
                                     buyer={listing.invoiceBuyer}

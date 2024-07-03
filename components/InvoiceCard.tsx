@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { FaFileInvoiceDollar } from "react-icons/fa6";
 import Link from 'next/link';
 import { ethers } from 'ethers';
@@ -28,10 +28,13 @@ interface PurchaseInvoiceProps {
 
 
 const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, dueDate, buyer, seller, payer, payee, nftOwner }) => {
-    const [bidAmount, setBidAmount] = useState<string>('');
+    // const [bidAmount, setBidAmount] = useState<string>(amount);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const floatAmount = ethers.utils.formatEther(amount)
+    const bidAmount = amount;
     const invoiceKeyInt = parseInt(invoiceKey.toString());
+    console.log("amount", amount, "bidAmount", bidAmount, "invoiceKey", invoiceKeyInt);
+    console.log("parseUnits", ethers.utils.parseUnits(".1",2), "parseEther", ethers.utils.parseEther(".1"), "formatEther", ethers.utils.formatEther("1"));
 
     const handlePurchase = async () => {
 
@@ -44,7 +47,10 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, du
                 const signer = provider.getSigner();
                 const contract = new ethers.Contract(marketplaceAddress, MarketplaceJson.abi, signer);
 
-                const bidAmountWei = ethers.utils.parseEther(bidAmount);
+                const bidAmountWei = ethers.utils.parseEther(floatAmount);
+                const minBidWei = ethers.utils.parseUnits("1");
+
+                console.log("bidAmountWei", bidAmountWei, "invoiceKey", invoiceKeyInt, "floatAmount", floatAmount, );
 
                 // if (bidAmountWei.lt(minBid)) {
                 //     onPurchaseError("Bid amount is too low");
@@ -55,9 +61,12 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, du
                 const transaction = await contract.purchaseInvoice(invoiceKey, {
                     value: bidAmountWei
                 });
-
                 await transaction.wait();
+                console.log("Invoice purchased successfully", transaction);
 
+            }
+            else {
+                console.error("Metamask not installed");
             }
         } catch (error) {
             console.error("Error purchasing invoice:", error);
@@ -71,7 +80,7 @@ const InvoiceCard: React.FC<InvoiceCardProps> = ({ invoiceKey, amount, chain, du
                 <FaFileInvoiceDollar className='bg-[#98EE2B] rounded-3xl p-1 text-5xl' />
                 <div>
                     <h2 className="text-left text-xl font-semibold font-sm">Invoice {invoiceKeyInt}</h2>
-                    <div className='text-[12px]'> Amount : {amount}</div>
+                    <div className='text-[12px]'> Amount : {floatAmount}</div>
                     <div className='text-[12px]'> Chain : {chain}</div>
                     <div className='text-[12px]'> Due Date : {dueDate}</div>
                 </div>
