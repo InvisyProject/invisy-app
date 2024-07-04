@@ -7,8 +7,6 @@ import { InvoiceDashboardProps } from "@/types";
 import { useConnectWallet } from "@web3-onboard/react";
 import { RequestNetwork, Types } from "@requestnetwork/request-client.js";
 
-
-
 export default function InvoiceDashboard() {
     const [{ wallet }] = useConnectWallet();
     const { requestNetwork } = useAppContext();

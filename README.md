@@ -9,6 +9,24 @@ One stop platform to create, cancel approve, pay, manage, lend and borrow invoic
 Old contract - 0x1b777b2CEBf0DBa2FBBa7c2E55911F5b5032242F
 New contract - 0x38a547cFD6Dc5a2335d54B245406ffB221681558
 
+### Screenshots of the current Web App
+
+**Main Marketplace Page**
+![Image](/public/images/1.png)
+
+**Home Page**
+![Image](/public/images/4.png)
+
+**Dashboard Page**
+![Image](/public/images/2.png)
+
+**Create Invoice Page**
+![Image](/public/images/3.png)
+
+**Mint Invoice Page**
+![Image](./public/images/5.png)
+
+
 ## **🧐 Problem Statement**
 **1. Inefficiency in Invoice Management**
 Managing invoices is a time-consuming and error-prone process for businesses, often requiring multiple steps and involving various intermediaries. This inefficiency can lead to delayed payments, lost invoices, and increased administrative costs.

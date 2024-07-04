@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import MarketplaceJson from "@/lib/contract/Marketplace.json";
 import { marketplaceAddress } from "@/lib/constant";
 
-
 interface InvoiceCardProps {
     invoiceKey: number;
     amount: string;
